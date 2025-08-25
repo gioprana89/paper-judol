@@ -1,0 +1,241 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library('bibliometrix')
+```
+
+
+```{r}
+
+list.files()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+file_path <- "bib_file7.bib"
+
+# 2. Konversi data ke format data frame bibliometrix
+data <- convert2df(file = file_path, dbsource = "scopus", format = "bibtex")
+
+
+data
+```
+
+```{r}
+
+# 3. Analisis deskriptif
+results <- biblioAnalysis(data, sep = ";")
+
+
+
+```
+
+
+
+
+```{r}
+
+# Ringkasan hasil
+summary(results, k = 20)   # k = jumlah item top yang ditampilkan
+
+
+
+```
+
+
+
+
+```{r}
+
+# 4. Plot hasil analisis
+plot(x = results, k = 10, pause = FALSE)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+
+file <- c("bib_file7.bib")
+
+M <- convert2df(file = file, dbsource = "isi", format = "bibtex")
+
+
+```
+
+
+
+
+
+```{r}
+
+results <- biblioAnalysis(M, sep = ";")
+
+S <- summary(object = results, k = 30, pause = FALSE)
+
+print(S)
+```
+
+
+
+
+```{r}
+
+plot(x = results, k = 10, pause = FALSE)
+
+```
+
+https://rpubs.com/chadchae/pilot_biblio_oa
+
+
+
+```{r}
+
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+
+# Plot the network
+net = networkPlot(NetMatrix,
+  normalize="association", 
+  weighted=T, 
+  n = 20, 
+  Title = "Keyword Co-occurrences",
+  type = "fruchterman", size=T,
+      edgesize = 20,
+      labelsize = 0.7)
+
+```
+
+
+
+
+```{r}
+
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+net=networkPlot(NetMatrix, n = 20, Title = "co-occurrences", type = "fruchterman", size.cex=TRUE, size=20, remove.multiple=FALSE, labelsize=1,edgesize = 10, edges.min=5)
+
+
+
+
+```
+
+
+
+
+```{r}
+
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+net=networkPlot(NetMatrix, normalize="association", n = 50, Title = "Keyword Co-occurrences", type = "fruchterman", size.cex=TRUE, size=20, remove.multiple=F, edgesize = 10, labelsize=5,label.cex=TRUE,label.n=30,edges.min=2)
+
+```
+
+
+`
+```{r}
+suppressWarnings(
+CS <- conceptualStructure(M, 
+                          method="MCA", 
+                          field="AB", minDegree=5, clust=2, stemming=FALSE, labelsize=15,documents=20)
+)
+
+```
+
+
+
+
+
+
+
+```{r}
+suppressWarnings(
+CS <- conceptualStructure(M, 
+                          method="MCA", 
+                          field="TI", minDegree=5, clust=2, stemming=FALSE, labelsize=15,documents=20)
+)
+
+```
+
+
+
+
+
+
+
+
+
+```{r}
+suppressWarnings(
+CS <- conceptualStructure(M, 
+                          method="MCA", 
+                          field="KW_Merged", 
+                          minDegree=5, 
+                          clust=2, 
+                          stemming=FALSE, 
+                          labelsize=15,documents=20)
+)
+
+```
+
+
+
+
+```{r}
+suppressWarnings(
+CS <- conceptualStructure(M, 
+                          method="MCA", 
+                          field="ID", 
+                          minDegree = 3, 
+                          clust = 4, 
+                          stemming=FALSE, 
+                          labelsize=15,
+                          documents=20)
+)
+
+```
+
+
+
+
+
+
